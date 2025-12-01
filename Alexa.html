@@ -106,33 +106,25 @@
     50% { transform: scale(1.1); }
   }
 
-  /* Выплывающие эмодзи и сердечки */
+  /* Выплывающие эмодзи */
   .emoji {
     position: absolute;
+    bottom: 0;
     z-index: 5;
     pointer-events: none;
     user-select: none;
     animation-name: floatUp;
-    animation-timing-function: ease-in-out;
+    animation-timing-function: linear;
     animation-iteration-count: 1;
   }
 
   @keyframes floatUp {
     0% {
-      transform: translateY(0) rotate(0deg);
+      transform: translateY(0);
       opacity: 1;
     }
-    25% {
-      transform: translateY(-20%) rotate(10deg);
-    }
-    50% {
-      transform: translateY(-40%) rotate(-10deg);
-    }
-    75% {
-      transform: translateY(-60%) rotate(10deg);
-    }
     100% {
-      transform: translateY(-100%) rotate(0deg);
+      transform: translateY(-110vh);
       opacity: 0;
     }
   }
@@ -158,15 +150,7 @@
 <!-- Основной экран -->
 <div id="main">
   <div class="heart-container">
-    <div class="heart-text">Для тебя ❤️</div>
-    <pre class="heart-emoji">
-🌸   🌸  
-🌸     🌸
-🌸       🌸
- 🌸     🌸 
-   🌸 🌸  
-     🌸  
-    </pre>
+    <div class="heart-text">Люблю Алексу❤️</div>
   </div>
 </div>
 
@@ -184,7 +168,7 @@ function startAnimation() {
   }, 1500);
 }
 
-/* Красные сердечки */
+/* Выплывающие красные сердечки */
 function createHeart() {
   const heart = document.createElement('div');
   heart.classList.add('emoji');
@@ -192,14 +176,10 @@ function createHeart() {
   const size = 15 + Math.random() * 15;
   heart.style.fontSize = size + 'px';
   heart.style.left = Math.random() * window.innerWidth + 'px';
-  const duration = 4 + Math.random() * 3;
+  const duration = 3 + Math.random() * 2; // чуть быстрее
   heart.style.animationDuration = duration + 's';
   document.body.appendChild(heart);
   setTimeout(() => heart.remove(), duration * 1000);
-}
-
-function startHearts() {
-  setInterval(createHeart, 300);
 }
 
 /* Выплывающие эмодзи любви и цветов */
@@ -214,20 +194,21 @@ function createEmoji() {
   const size = 20 + Math.random() * 15;
   emoji.style.fontSize = size + 'px';
   emoji.style.left = Math.random() * window.innerWidth + 'px';
-
-  const duration = 4 + Math.random() * 3;
+  const duration = 3 + Math.random() * 2; // скорость чуть выше
   emoji.style.animationDuration = duration + 's';
 
   document.body.appendChild(emoji);
-
   setTimeout(() => emoji.remove(), duration * 1000);
+}
+
+function startHearts() {
+  setInterval(createHeart, 300);
 }
 
 function startEmojis() {
   setInterval(createEmoji, 300);
 }
 
-/* Запуск всех анимаций */
 function startHeartsAndEmojis() {
   startHearts();
   startEmojis();
