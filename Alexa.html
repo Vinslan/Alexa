@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Подарок для тебя ❤️🌸</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #111;
+  }
+
+  /* Заставка */
+  #intro {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #111;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 100;
+    transition: opacity 1.5s ease;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  #intro h1 {
+    font-size: 2.5em;
+    margin: 0;
+  }
+
+  #intro button {
+    margin-top: 20px;
+    padding: 15px 30px;
+    font-size: 1.5em;
+    border: none;
+    border-radius: 15px;
+    background: #ff4d6d;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+    transition: transform 0.2s;
+  }
+
+  #intro button:active {
+    transform: scale(0.95);
+  }
+
+  /* Основной экран */
+  #main {
+    display: none;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, #ffdde1, #ee9ca7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+
+  /* Сердечко из цветов */
+  .heart-container {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .heart-text {
+    position: absolute;
+    text-align: center;
+    font-size: 1.5em;
+    line-height: 1.2;
+    z-index: 10;
+    width: 60%;
+    animation: pulse 1.5s infinite;
+  }
+
+  .heart-emoji {
+    font-size: 1.5em;
+    line-height: 1;
+    white-space: pre;
+    display: block;
+    text-align: center;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+
+  /* Красные сердечки */
+  .heart {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background: red;
+    transform: rotate(-45deg);
+    animation: float 4s linear infinite;
+  }
+
+  .heart:before,
+  .heart:after {
+    content: "";
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background: red;
+    border-radius: 50%;
+  }
+
+  .heart:before { top: -7.5px; left: 0; }
+  .heart:after { left: 7.5px; top: 0; }
+
+  @keyframes float {
+    0% { transform: translateY(0) rotate(-45deg); opacity: 1; }
+    100% { transform: translateY(-600px) rotate(-45deg); opacity: 0; }
+  }
+
+  /* Адаптация под мобильные */
+  @media (max-width: 480px) {
+    #intro h1 { font-size: 2em; }
+    #intro button { font-size: 1.2em; padding: 12px 25px; }
+    .heart-container { width: 180px; height: 180px; }
+    .heart-text { font-size: 1.2em; width: 70%; }
+    .heart-emoji { font-size: 1.2em; }
+    .heart, .heart:before, .heart:after {
+      width: 12px;
+      height: 12px;
+    }
+    .heart:before { top: -6px; }
+    .heart:after { left: 6px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Заставка -->
+<div id="intro">
+  <h1>Нажми на меня</h1>
+  <button onclick="startAnimation()">💖</button>
+</div>
+
+<!-- Основной экран -->
+<div id="main">
+  <div class="heart-container">
+    <div class="heart-text">Люблю свою Алексу ❤️</div>
+
+  </div>
+</div>
+
+<script>
+/* Запуск основного экрана */
+function startAnimation() {
+  const intro = document.getElementById('intro');
+  const main = document.getElementById('main');
+
+  intro.style.opacity = 0;
+  setTimeout(() => {
+    intro.style.display = 'none';
+    main.style.display = 'flex';
+    startHeartsAndEmojis();
+  }, 1500);
+}
+
+/* Красные сердечки */
+function createHeart() {
+  const heart = document.createElement('div');
+  heart.classList.add('heart');
+  heart.style.left = Math.random() * window.innerWidth + 'px';
+  heart.style.animationDuration = 2 + Math.random() * 3 + 's';
+  document.body.appendChild(heart);
+  setTimeout(() => { heart.remove(); }, 5000);
+}
+
+function startHearts() {
+  setInterval(createHeart, 300);
+}
+
+/* Выплывающие эмодзи любви и цветов */
+const emojis = ['❤️', '💖', '🌹', '💌', '💘', '💝', '🌸'];
+
+function createEmoji() {
+  const emoji = document.createElement('div');
+  const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+  emoji.textContent = randomEmoji;
+
+  emoji.style.position = 'absolute';
+  emoji.style.fontSize = 20 + Math.random() * 15 + 'px';
+  emoji.style.left = Math.random() * window.innerWidth + 'px';
+  emoji.style.top = window.innerHeight + 'px';
+  emoji.style.zIndex = 5;
+  emoji.style.transition = `transform 3s linear, opacity 3s linear`;
+
+  document.body.appendChild(emoji);
+
+  requestAnimationFrame(() => {
+    emoji.style.transform = `translateY(-${window.innerHeight + 50}px)`;
+    emoji.style.opacity = 0;
+  });
+
+  setTimeout(() => { emoji.remove(); }, 3000);
+}
+
+function startEmojis() {
+  setInterval(createEmoji, 300);
+}
+
+/* Запуск всех анимаций */
+function startHeartsAndEmojis() {
+  startHearts();
+  startEmojis();
+}
+</script>
+
+</body>
+</html>
